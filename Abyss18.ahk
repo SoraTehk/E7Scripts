@@ -3,12 +3,12 @@
 CoordMode("Mouse", "Screen")
 
 windowTitle    := "Epic Seven"
-loopIntervalMs := 5000  ; Pause between end of one cycle and start of next
+loopIntervalMs := 50000  ; Pause between end of one cycle and start of next
 
 ; [relX, relY, delayMs]
 clicks := [
-    [0.206, 0.9,    1000],
-    [0.206, 0.9,    3000],
+    [0.04,  0.95,   1000], ; Clear completed UI
+    [0.04,  0.95,   3000], ; Back to Abyss
     [0.74,  0.25,   200], ; 18
     [0.74,  0.25,   200], ; 16
     [0.74,  0.25,   200], ; 14
@@ -20,11 +20,10 @@ clicks := [
     [0.74,  0.43,   200], ; 3
     ;[0.74,  0.43,   200], ; 2
     ;[0.74,  0.43,   200], ; 1
-    [0.875, 0.897,  4000],
-    [0.875, 0.897,  1000],
-    [0.55,  0.7,   1000],
-    [0.55,  0.7,   1000],
-    [0.88,  0.7,   1000]
+    [0.878, 0.94,  3000], ; Replay
+    [0.878, 0.94,  1000], ; Start
+    [0.55,  0.7,   1000], ; Replay confirm
+    [0.55,  0.7,   1000], ; Replay confirm (extra)
 ]
 
 running := false
