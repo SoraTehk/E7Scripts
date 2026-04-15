@@ -5,27 +5,6 @@ CoordMode("Mouse", "Screen")
 windowTitle    := "Epic Seven"
 loopIntervalMs := 36000  ; Pause between end of one cycle and start of next
 
-; --- OSD (click-through, non-blocking) ---
-osd := Gui("-Caption +ToolWindow +AlwaysOnTop")
-osd.BackColor := "202020"
-osd.SetFont("s10 Bold", "Segoe UI")
-osdLabel := osd.AddText("w130 Center", "")
-osd.Show("NoActivate x10 y10 w130 h28")
-WinSetTransparent(210, osd)
-WinSetExStyle("+0x20", osd)  ; WS_EX_TRANSPARENT — passes all clicks through
-UpdateOSD()
-
-UpdateOSD() {
-    global running, osdLabel
-    if running {
-        osdLabel.SetFont("cLime")
-        osdLabel.Value := "● Abyss: Running"
-    } else {
-        osdLabel.SetFont("c707070")
-        osdLabel.Value := "● Abyss: Stopped"
-    }
-}
-
 ; [relX, relY, delayMs]
 clicks := [
     [0.04,  0.95,   1000], ; Clear completed UI
@@ -55,14 +34,29 @@ running := false
 F3::ToggleLoop()
 F9::ExitApp()
 
+; --- OSD (click-through, non-blocking) ---
+osd := Gui("-Caption +ToolWindow +AlwaysOnTop")
+osd.BackColor := "202020"
+osd.SetFont("s10 Bold", "Segoe UI")
+osdLabel := osd.AddText("w130 Center", "")
+osd.Show("NoActivate x10 y10 w130 h28")
+WinSetTransparent(210, osd)
+WinSetExStyle("+0x20", osd)  ; WS_EX_TRANSPARENT — passes all clicks through
+
 ToggleLoop() {
-    global running
+    global running, osdLabel
     running := !running
-    UpdateOSD()
-    if running
+
+    if running {
         DoClicks()
-    else
+        osdLabel.SetFont("cLime")
+        osdLabel.Value := "● Abyss: Running"
+    }
+    else {
         SetTimer(DoClicks, 0)  ; Cancel any pending next cycle
+        osdLabel.SetFont("c707070")
+        osdLabel.Value := "● Abyss: Stopped"
+    }
 }
 
 DoClicks() {
